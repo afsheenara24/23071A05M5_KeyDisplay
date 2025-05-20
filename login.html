@@ -11,6 +11,7 @@
             height: 100vh;
             background-color: #f4f4f4;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -58,6 +59,17 @@
             max-width: 400px;
             text-align: center;
         }
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            color: #666;
+            width: 100%;
+            background-color: #f4f4f4;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +85,9 @@
     </form>
 
     <div id="result" style="display:none;"></div>
-
+    <footer>
+        &copy; 23071A05M5
+    </footer>
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
