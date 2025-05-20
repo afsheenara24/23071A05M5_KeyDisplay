@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        form {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 1rem;
+            text-align: left;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.3rem;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 1.5rem;
+            padding: 0.7rem 1.2rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #e9ffe9;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            max-width: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form id="loginForm">
+        <h1>User Login</h1>
+        <label for="username">Username *</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Password *</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="result" style="display:none;"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
+
+            if (!storedUser) {
+                alert('No registered user found. Please register first.');
+                return;
+            }
+
+            if (username === storedUser.username && password === storedUser.password) {
+                // Generate key: first two letters of firstname + dob in ddmmyyyy
+                const dobDate = new Date(storedUser.dob);
+                const day = ('0' + dobDate.getDate()).slice(-2);
+                const month = ('0' + (dobDate.getMonth() + 1)).slice(-2);
+                const year = dobDate.getFullYear();
+                const dobFormatted = day + month + year;
+
+                const key = storedUser.firstname.substring(0, 2).toLowerCase() + dobFormatted;
+
+                const resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `
+                    <h2>Welcome, ${storedUser.firstname} ${storedUser.lastname}!</h2>
+                    <p>Your key is: <strong>${key}</strong></p>
+                `;
+            } else {
+                alert('Invalid username or password.');
+            }
+        });
+    </script>
+</body>
+</html>
